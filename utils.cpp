@@ -15,14 +15,14 @@ utils::utils(const utils& orig) {}
 
 utils::~utils() {}
 
-string strtoupper(string str){
+string utils::strtoupper(string str){
     int leng=str.length();
     for(int i=0; i<leng; i++)
         if (97<=str[i]&&str[i]<=122)//a-z
             str[i]-=32;
     return str;
 }
-string strtolower(string str){
+string utils::strtolower(string str){
     int leng=str.length();
     for(int i=0; i<leng; i++)
         if (65<=str[i]&&str[i]<=90)//A-Z

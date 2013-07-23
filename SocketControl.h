@@ -10,6 +10,7 @@
 
 #define PORT 9513
 
+#include <netinet/in.h>
 using namespace std;
 
 class SocketControl {
