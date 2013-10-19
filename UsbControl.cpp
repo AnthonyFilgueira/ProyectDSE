@@ -61,8 +61,8 @@ struct usb_device * UsbControl::device_init(void){
  * @dev: indica el device file correspondiente al dispositivo
  * 
  */
-void UsbControl::setPermissions(char* bus, char* dev){
-    char path[254] = "echo jut120388 | sudo -S chmod 0777 /dev/bus/usb";
+void UsbControl::setPermissions(char* bus, char* dev){            
+    char path[254] = "cat /home/$USER/.confpse/.confpse.conf | grep 'loginusr:' | awk '{print $2}' | sudo -S chmod 0777 /dev/bus/usb";
         strcat(path,"/");  strcat(path,bus);
 	strcat(path,"/");  strcat(path,dev);				
 	system(path);        
@@ -70,17 +70,13 @@ void UsbControl::setPermissions(char* bus, char* dev){
 int UsbControl::inicializar_picusb(){
     usb_dev = device_init();   
 
-    if (usb_dev == NULL){
-	//fprintf(stderr, "Dispositivo no encontrado. - %d (%s)\n", errno, strerror(errno));        
+    if (usb_dev == NULL)	
         return -1;
-     }
-    
+         
     usb_handle = usb_open(usb_dev);
     
-    if (usb_handle == NULL){
-	//fprintf(stderr, "No logra abrir usb port. - %d (%s)\n", errno, strerror(errno));        
-        return -2;
-    }
+    if (usb_handle == NULL)
+        return -2;    
     return 0;
 }
 bool UsbControl::write_usb(){

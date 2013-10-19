@@ -29,3 +29,13 @@ string utils::strtolower(string str){
             str[i]+=32;
     return str;
 }
+string utils::parserIn(int number){
+    ostringstream postr;
+    postr << number;
+    return postr.str();
+}
+
+int utils::getRandNumber(int ini, int fin){
+    srand(time(NULL));               
+    return ini+rand()%((fin+1)-ini);
+}

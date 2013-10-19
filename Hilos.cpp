@@ -29,10 +29,10 @@ string cmd, in;
 Hilos::Hilos() {
     driver.begin();    
     
-    if (socketx.open()){    
+    if (socketx.open()){            
         pthread_mutex_init (&mutexBuffer, NULL);
         pthread_create (&h1 , NULL , run , NULL);
-        pthread_join(h1,NULL);
+        pthread_join(h1,NULL);        
     }
     printf ( "Fin \n");
 }
@@ -50,9 +50,17 @@ void * Hilos::run(void *me){
            cmd = socketx.leer();
            cmd = utils::strtolower(cmd);
            
-           if (cmd.compare(0,3,"out") == 0){ 
+           if (cmd.compare(0,3,"out") == 0){               
                cout << "Saliendo" << endl;
                break;
+           }
+           
+           /* Simulacion de practica */
+           if (cmd.compare(0,4,"simu") == 0){                
+               int n = utils::getRandNumber(1,100);
+               socketx.escribir("s-" + utils::parserIn(n) + ".00");
+               cout << "s-" << utils::parserIn(n) << ".00" << endl;
+               bandera = 0;
            }
            
            /* Comandos */
@@ -68,11 +76,11 @@ void * Hilos::run(void *me){
                cout << in << endl;
                bandera = 0;
            }
+           socketx.desconectar();
            if (bandera)
                 socketx.escribir("default");
-        }
-        socketx.desconectar();
-        socketx.cerrar();
+        }        
+        socketx.cerrar();                
     }
     pthread_mutex_unlock (&mutexBuffer);
     

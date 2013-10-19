@@ -8,7 +8,10 @@
 #ifndef UTILS_H
 #define	UTILS_H
 
-#include<iostream>
+#include <iostream>
+#include <stdlib.h>
+#include <sstream>
+#include <time.h>
 using namespace std;
 
 class utils {
@@ -18,6 +21,8 @@ public:
     virtual ~utils();
     static string strtoupper(string str);
     static string strtolower(string str);
+    static string parserIn(int number);
+    static int getRandNumber(int ini, int fin);
 private:
 
 };

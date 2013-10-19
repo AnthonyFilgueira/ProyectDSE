@@ -24,10 +24,26 @@ SocketControl::SocketControl(const SocketControl& orig) {}
 SocketControl::~SocketControl() {}
 
 bool SocketControl::open(){
-     sockfd = socket(AF_INET, SOCK_STREAM, 0);
+     sockfd = socket(AF_INET, SOCK_STREAM, 6);
      if (sockfd < 0) 
          return false;
      
+     /* Agregar Opciones */
+     struct timeval timeout;      
+     timeout.tv_sec = 10;
+     timeout.tv_usec = 0;
+     int flag;
+     
+     flag = 1;
+     if (setsockopt (sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+         return false;
+
+     if (setsockopt (sockfd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+         return false;
+	 
+     if (setsockopt (sockfd, SOL_SOCKET, SO_REUSEADDR,&flag, sizeof flag) < 0)
+	 return false;
+         
      bzero((char *) &serv_addr, sizeof(serv_addr));
      
      serv_addr.sin_family = AF_INET;
@@ -74,5 +90,6 @@ void SocketControl::desconectar(){
 }
 
 void SocketControl::cerrar(){    
-    close(sockfd);
+    shutdown(sockfd,SHUT_RDWR);
+    close(sockfd);    
 }
